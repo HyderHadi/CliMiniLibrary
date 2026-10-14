@@ -4,19 +4,25 @@ package org.example
 val listOfBooks = mutableListOf<Book>()
 
 fun main() {
-    
+
     var command: String? = null
-    
-    while(command?.lowercase() != "exit") {
+
+    file.createNewFile()
+
+    listOfBooks.addAll(readFromFile(file))
+    while (command?.lowercase() != "exit") {
         println("\n<<<< Library Management >>>>")
-        println("""
+        println(
+            """
             1 - add
-        """.trimIndent())
+            2 - list
+        """.trimIndent()
+        )
         print("Type a command: ")
-        
+
         command = readln()
-        
-        when(command) {
+
+        when (command) {
             "add" -> {
                 print("Type name of the book: ")
                 val name = readln()
@@ -25,7 +31,16 @@ fun main() {
                         name = name
                     )
                 )
+                writeToFile(listOfBooks)
                 println("Book Added Successfully\n")
+            }
+
+            "list" -> {
+                println()
+                listOfBooks.forEach {
+                    println("ID: ${it.id}||Name: ${it.name}||Is Borrowed: ${it.isBorrowed}")
+                }
+                println()
             }
         }
     }
